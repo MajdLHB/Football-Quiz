@@ -159,8 +159,8 @@ def Quiz():
                         if answer == 'Help' or answer == 'Help':
                             print(f' Player name: {Playername}')
                             HH = input('Enter Player Last Name: ')
-                            def eee(HH, PlayerName):
-                                similarity = similarity_score(HH.lower(), HH.lower())
+                            def eee(HH, PlayerLN):
+                                similarity = similarity_score(HH.lower(), PlayerLN.lower())
                                 if similarity >= 0.7:
                                     print("Correct! Its " + PlayerName + "!")
                                     M.score = M.score + 1
@@ -174,7 +174,7 @@ def Quiz():
                                     print(f'Your score is {M.score} in {M.tries} tries')
                                     print('=====================')
                                     return Quiz()
-                            eee(SAnswer, PlayerLN)
+                            eee(HH, PlayerLN)
 
                             print("Incorrect. The correct answer is: " + PlayerName)
                             M.tries = M.tries + 1
