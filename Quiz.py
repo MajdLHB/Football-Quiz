@@ -162,7 +162,7 @@ def Quiz():
                             def eee(HH, PlayerLN):
                                 similarity = similarity_score(HH.lower(), PlayerLN.lower())
                                 if similarity >= 0.7:
-                                    print("Correct! Its " + PlayerName + "!")
+                                    print("Correct! Its " + PlayerLN + "!")
                                     M.score = M.score + 1
                                     M.tries = M.tries + 1
                                     print(f'Your score is {M.score} in {M.tries} tries')
