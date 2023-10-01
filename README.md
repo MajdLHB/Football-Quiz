@@ -18,6 +18,6 @@ Welcome to the Football Legends List project! This repository contains a Python 
 1. Clone this repository to your local machine:
 
 ```shell
-git clone https://github.com/yourusername/football-legends-list.git
+git clone https://github.com/yourusername/Football-Quizt.git
 
 It's a football players quiz that provide with player information. Your role is to write the player's name. You can answer with 'hint' or 'Hint' and 'help' or 'Help' if you need some help.
