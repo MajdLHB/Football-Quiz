@@ -2,6 +2,8 @@
 
 Welcome to the Football Legends List project! This repository contains a Python script that generates a list of football (soccer) legends, including their transfer history and interesting facts about them. This list includes some of the greatest players of all time, both past and present.
 
+It's a football players quiz that provide with player information. Your role is to write the player's name. You can answer with 'hint' or 'Hint' and 'help' or 'Help' if you need some help.
+
 ## Table of Contents
 - [Features](#features)
 - [Usage](#usage)
@@ -20,4 +22,4 @@ Welcome to the Football Legends List project! This repository contains a Python 
 ```shell
 git clone https://github.com/yourusername/Football-Quizt.git
 
-It's a football players quiz that provide with player information. Your role is to write the player's name. You can answer with 'hint' or 'Hint' and 'help' or 'Help' if you need some help.
+
