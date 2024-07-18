@@ -7,8 +7,6 @@ It's a football players quiz that provide with player information. Your role is 
 ## Table of Contents
 - [Features](#features)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - Generates a list of football legends with detailed information.
