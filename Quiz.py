@@ -1,338 +1,172 @@
 import random
 import difflib
+import os
+import json
+from tkinter import Tk, StringVar, Label, Entry, Button
+from tkinter import messagebox
+from tkinter import ttk
 
-class M:
-    Bool = False
-    score = 0
-    tries = 0
-    Players = [[ 'Lionel Messi', 'Fc Barcelona > PSG > Inter Miami', 'Argentina', 'Short Number: 10', 'Age:36', 'La polga', 'He won The world cup', 'He wonts 47 titels'],
-[ 'Cristiano Ronaldo', 'Sporting > Manchester United > Fc Real Madrid > Juventus > Manchester United > Al nasr', 'Portugal', 'Short Number: 7', 'Age:38', 'The' 'He won The Uero', 'He wonts 36 titels'],
-[ 'Neymar Jr', 'Santos > Fc Barcelona > PSG > Al Hilal', 'Brazil', 'Short Number: 10', 'Age:29', 'He play with Messi',],
-[ 'Robert Lewandowski', 'Znicz Pruszków > Lech Poznań > Borussia Dortmund > Bayern Munich > FC Barcelona', 'Poland', 'Short Number: 9', 'One of the best strikers in the world'],
-[ 'Kylian Mbappé', 'Monaco > PSG', 'France', 'Short Number: 7', 'Age:24', 'The Tuetle'],
-[ 'Kevin De-Bruyne', 'Genk > Chelsea > Werder Bremen > Wolfsburg > Manchester City', 'Belgium', 'Short Number: 17',  'He won the Uero', 'He wonts 17 titels'],
-[ 'Harry Kane', 'Tottenham Hotspur', 'England', 'Short Number: 10', 'Age:28', 'He play with Son', 'He wonts 0 titels'],
-[ 'Erling Haaland', 'Bryne > Molde > Red Bull Salzburg > Borussia Dortmund > Man City', 'Norway', 'Short Number: 9',  'He play with Marco Reus', 'He is the top scorer in Primier League 2023'],
-[ 'Romelu Lukaku', 'Anderlecht > Chelsea > West Bromwich Albion > Everton > Manchester United > Inter Milan', 'Belgium', 'Short Number: 9', 'He play with Lautaro Martinez'],
-[ 'Mohamed Salah', 'El Mokawloon > Basel > Chelsea > Fiorentina > Roma > Liverpool', 'Egypt', 'Short Number: 11' 'He play with Sadio Mane',],
-[ 'Karim Benzema', 'Lyon > Real Madrid > Al Itihad', 'France', 'Short Number: 9', 'Age:33', 'He won the ballon dor 2022'],
-[ 'Sadio Mané', 'Metz > Red Bull Salzburg > Southampton > Liverpool > Al Nasr', 'Senegal', 'Short Number: 10', 'He won the African Golden Ball '],
-[ 'Luis Suárez', 'Nacional > Groningen > Ajax > Liverpool > Barcelona > Atlético Madrid', 'Uruguay', 'Short Number: 9'],
-[ 'Raheem Sterling', 'Queens Park Rangers > Liverpool > Manchester City > Chelsea', 'England', 'Short Number: 7'],
-[ 'Eden Hazard', 'Lille > Chelsea > Real Madrid', 'Belgium', 'Short Number: 7', 'He play with Karim Benzema'],
-[ 'Antoine Griezmann', 'Real Sociedad > Atlético Madrid > Barcelona > Atlético Madrid', 'France', 'Short Number: 7', 'He play 11 seasons in Laliga without winning the league'],
-[ 'Paul Pogba', 'Le Havre > Manchester United > Juventus > Manchester United > Juventos', 'France', 'Short Number: 6', 'He is fined'],
-[ 'Luka Modrić', 'Dinamo Zagreb > Zrinjski Mostar > Inter Zaprešić > Dinamo Zagreb > Tottenham Hotspur > Real Madrid', 'Croatia', 'Short Number: 10', 'He play with Karim Benzema'],
-[ 'Bruno Fernandes', 'Boavista > Novara > Udinese > Sampdoria > Sporting CP > Manchester United', 'Portugal', 'Short Number: 18', 'Famous Medfielder'],
-[ 'Toni Kroos', 'Bayern Munich > Bayer Leverkusen > Bayern Munich > Real Madrid', 'Germany', 'Short Number: 8', 'He won the champions league 5 times'],
-[ 'Sergio Ramos', 'Sevilla > Real Madrid > Paris Saint-Germain > Sevelia', 'Spain', 'Short Number: 4', 'We won The world cup', 'He play with Lionel Messi and Cristiono Ronaldo'],
-[ 'Virgil van Dijk', 'FC Groningen > Celtic > Southampton > Liverpool', 'Netherlands', 'Short Number: 4', 'He won the champions league 2019'],
-[ 'Manuel Neuer', 'Schalke 04 > Bayern Munich', 'Germany', 'Short Number: 1', 'One of the best goalkeepers in the world'],
-[ 'Alisson Becker', 'Internacional > Roma > Liverpool', 'Brazil', 'Short Number: 1', 'Goalkeeper of the year 2019'],
-[ 'Thibaut Courtois', 'Genk > Atlético Madrid > Chelsea > Real Madrid', 'Belgium', 'Short Number: 1', 'Famous Goalkeeper'],
-[ 'Marc-André ter Stegen', 'Borussia Mönchengladbach > Barcelona', 'Germany', 'Short Number: 1', 'He is a famous goalkeeper'],
-[ 'Jan Oblak', 'Benfica > Atlético Madrid', 'Slovenia', 'Short Number: 13', 'He didnt win the champions league'],
-[ 'Ederson', 'Benfica > Manchester City', 'Brazil', 'Short Number: 31', 'He won the champions league 2023'],
-[ 'David de-Gea', 'Atlético Madrid > Manchester United', 'Spain', 'Short Number: 1', 'He is a famous goalkeeper without a club'],
-[ 'Joshua Kimmich', 'VfB Stuttgart > RB Leipzig > Bayern Munich', 'Germany', 'Short Number: 6', 'He is playing right now'],
-[ 'N\'Golo Kanté', 'Boulogne > Caen > Leicester City > Chelsea', 'France', 'Short Number: 7', 'He won the world cup 2018'],
-[ 'Carlos Casemiro', 'São Paulo > Real Madrid > Man utd.', 'Brazil', 'Short Number: 14',],
-[ 'Frenkie de-Jong', 'Willem II > Ajax > Barcelona', 'Netherlands', 'Short Number: 21', 'He transfered to Barcelona for 75 million euros'],
-[ 'Thomas Müller', 'Bayern Munich', 'Germany', 'Short Number: 25', 'He never left Bayern Munich'],
-[ 'Jadon Sancho', 'Manchester City > Borussia Dortmund > Manchester United', 'England', 'Short Number: 7', 'He play with Erling Haaland'],
-[ 'Marquinhos', 'Corinthians > Roma > Paris Saint-Germain', 'Brazil', 'Short Number: 5', 'He became the captain of PSG'],
-[ 'Sergio Busquets', 'Barcelona', 'Spain', 'Short Number: 5', 'He won the world cup 2010'],
-[ 'Heung-min Son', 'Hamburger SV > Bayer Leverkusen > Tottenham Hotspur', 'South Korea', 'Short Number: 7', 'He is the best Asian player'],
-[ 'Gerard Piqué', 'Manchester United > Barcelona', 'Spain', 'Short Number: 3', 'He retired'],
-[ 'David Silva', 'Valencia > Manchester City > Real Sociedad', 'Spain', 'Short Number: 21'],
-[ 'Trent Alexander-Arnold', 'Liverpool', 'England', 'Short Number: 66', 'He won the champions league 2019'],
-[ 'Sergio Agüero', 'Atlético Madrid > Manchester City > Barcelona', 'Argentina', 'Short Number: 10', 'He retired'],
-[ 'Leroy Sané', 'Schalke 04 > Manchester City > Bayern Munich', 'Germany', 'Short Number: 19', 'He is playing right now'],
-[ 'Ángel Di-María', 'Rosario Central > Benfica > Real Madrid > Manchester United > Paris Saint-Germain > Juventos >Benfica', 'Argentina', 'Short Number: 11', ],
-[ 'Gianluigi Donnarumma', 'Milan > Paris Saint-Germain', 'Italy', 'Short Number: 50', 'He won the Euro 2021'],
-[ 'Hakim Ziyech', 'Heerenveen > Twente > Ajax > Chelsea', 'Morocco', 'Short Number: 22', 'He play with N\'Golo Kanté'],
-[ 'Paulo Dybala', 'Instituto > Palermo > Juventus', 'Argentina', 'Short Number: 10', 'He is playing right now'],
-[ 'Christian Eriksen', 'Ajax > Tottenham Hotspur > Internazionale > Brentfors > Man Utd', 'Denmark', 'Short Number: 24', 'He retired because of a heart attack and back to football'],
-[ 'Memphis Depay', 'Transfer History: PSV Eindhoven > Manchester United > Lyon > Barcelona > Atlético Madrid', 'Netherlands', 'Short Number: 10', 'A fact about the player: He play with Lionel Messi', 'A fact about the player: He play with Antoine Griezmann'],
-[ 'Lautaro Martínez', 'Racing Club > Inter Milan', 'Argentina', 'Short Number: 10', 'A fact about the player: He play with Romelu Lukaku', 'A fact about the player: He won the Copa America 2021'],
-[ 'Nicolò Barella', 'Inter Milan', 'Italy', 'Short Number: 23', 'A fact about the player: He play with Romelu Lukaku', 'A fact about the player: He won the Euro 2021'],
-[ 'Jude Bellingham', 'Birmingham City > Borussia Dortmund > Real Madrid', 'England', 'Short Number: 22', 'A fact about the player: He is 20 years old', 'A fact about the player: He is the youngest player in the Euro 2021'],
-[ 'Phil Foden', 'Manchester City', 'England', 'Short Number: 47'],
-[ 'Pedri Gonzalez', 'Las Palmas > Barcelona', 'Spain', 'Short Number: 16', 'A fact about the player: He is 20 years old', 'A fact about the player: He is the youngest Spain player in the Euro 2021'],
-[ 'Federico Chiesa', 'Fiorentina > Juventus', 'Italy', 'Short Number: 22' ],
-[ 'Mason Mount', 'Chelsea > Man utd', 'England', 'Short Number: 19', 'A fact about the player: He is 24 years old' ],
-[ 'Jack Grealish', 'Aston Villa > Manchester City', 'England', 'Short Number: 10', 'A fact about the player: He is 26 years old', 'A fact about the player: He won the champions league 2023'],
-['Jorginho', 'Hellas Verona > Napoli > Chelsea', 'Italy', 'Short Number: 8', 'A fact about the player: He is 29 years old', 'A fact about the player: He won the champions league 2021'],
-['Declan Rice', 'Chelsea > West Ham United > Arsenal', 'England', 'Short Number: 4', 'A fact about the player: He is 22 years old'],
-['Luis Figo', 'Sporting CP > Barcelona > Real Madrid > Inter Milan', 'Portugal', 'Short Number: 7', 'Former FIFA World Player of the Year'],
-['Andres Iniesta', 'Barcelona > Vissel Kobe', 'Spain', 'Short Number: 8', 'Scored the winning goal in the 2010 World Cup final'],
-['Franz Beckenbauer', 'Bayern Munich > New York Cosmos', 'Germany', 'Short Number: 5', 'World Cup winner as both player and coach'],
-['George Best', 'Manchester United > Los Angeles Aztecs', 'Northern Ireland', 'Short Number: 7', 'Widely regarded as one of the greatest dribblers in history'],
-['Paolo Maldini', 'AC Milan', 'Italy', 'Short Number: 3', 'Legendary Italian defender and one-club man'],
-['Lev Yashin', 'Dynamo Moscow', 'Soviet Union', 'Short Number: 1', 'The only goalkeeper to win the Ballon d\'Or'],
-    ['Bobby Charlton', 'Manchester United', 'England', 'Short Number: 9', 'Scored a record number of goals for Manchester United'],
-    ['Ferenc Puskás', 'Budapest Honvéd > Real Madrid', 'Hungary', 'Short Number: 10', 'Prolific goal scorer and member of the Mighty Magyars'],
-    ['Ronaldo Nazário', 'PSV Eindhoven > Barcelona > Inter Milan > Real Madrid', 'Brazil', 'Short Number: 9', 'Two-time FIFA World Player of the Year'],
-    ['Zinedine Zidane', 'AS Cannes > Girondins de Bordeaux > Juventus > Real Madrid', 'France', 'Short Number: 5', 'Scored twice in the 1998 World Cup final'],
-    ['Ronaldinho', 'Gremio > PSG > Barcelona > AC Milan', 'Brazil', 'Short Number: 10', 'Known for his mesmerizing skills and creativity'],
-    ['Thierry Henry', 'AS Monaco > Juventus > Arsenal > Barcelona > New York Red Bulls', 'France', 'Short Number: 14', 'Arsenal\'s all-time leading goal scorer'],
-    ['Roberto Baggio', 'Vicenza > Fiorentina > Juventus > Inter Milan', 'Italy', 'Short Number: 10', 'Known for his dribbling and free-kick abilities'],
-    ['Samuel Eto\'o', 'Real Madrid > Mallorca > Barcelona > Inter Milan > Chelsea', 'Cameroon', 'Short Number: 9', 'Won back-to-back trebles with Barcelona and Inter Milan'],
-    ['Xavi Hernandez', 'Barcelona > Al Sadd', 'Spain', 'Short Number: 6', 'Key figure in Barcelona\'s tiki-taka era'],
-    ['Gianluigi Buffon', 'Parma > Juventus > PSG', 'Italy', 'Short Number: 1', 'One of the greatest goalkeepers of all time'],
-    ['Fabio Cannavaro', 'Parma > Inter Milan > Juventus > Real Madrid', 'Italy', 'Short Number: 5', 'Captained Italy to the 2006 World Cup victory'],
-    ['Gheorghe Hagi', 'Farul Constanța > Steaua Bucharest > Real Madrid > Barcelona', 'Romania', 'Short Number: 10', 'Nicknamed "The Maradona of the Carpathians"'],
-    ['David Beckham', 'Manchester United > Real Madrid > LA Galaxy > Paris Saint-Germain', 'England', 'Short Number: 7', 'Known for his precise free-kicks and crossing'],
-    ['George Weah', 'Monaco > Paris Saint-Germain > AC Milan', 'Liberia', 'Short Number: 9', 'The only African player to win the FIFA World Player of the Year'],
-    ['Fernando Torres', 'Atletico Madrid > Liverpool > Chelsea', 'Spain', 'Short Number: 9', 'Scored the winning goal in the 2008 Euro final'],
-    ['Michael Ballack', 'Kaiserslautern > Bayer Leverkusen > Bayern Munich > Chelsea', 'Germany', 'Short Number: 13', 'One of Germany\'s finest midfielders'],
-    ['Rivaldo', 'Deportivo La Coruña > Barcelona > AC Milan', 'Brazil', 'Short Number: 11', 'Won the FIFA World Player of the Year in 1999'],
-    ['Johan Cruyff', 'Ajax > Barcelona > Los Angeles Aztecs', 'Netherlands', 'Short Number: 14', 'Pioneer of Total Football'],
-    ['Alfredo Di Stefano', 'River Plate > Real Madrid > Espanyol', 'Argentina', 'Short Number: 9', 'Five-time Ballon d\'Or winner'],
-    ['Franco Baresi', 'AC Milan', 'Italy', 'Short Number: 6', 'Legendary Italian defender and captain'],
-    ['George Best', 'Manchester United > Los Angeles Aztecs', 'Northern Ireland', 'Short Number: 7', 'Widely regarded as one of the greatest dribblers in history'],
-    ['Jack Grealish', 'Aston Villa > Manchester City', 'England', 'Short Number: 10', 'A fact about the player: He is 26 years old', 'A fact about the player: He won the champions league 2023'],
-    ['Jorginho', 'Hellas Verona > Napoli > Chelsea > Arsenal', 'Italy', 'Short Number: 8', 'A fact about the player: He is 29 years old', 'A fact about the player: He won the champions league 2021'],
-    ['Declan Rice', 'West Ham United > Arsenal', 'England', 'Short Number: 4', 'A fact about the player: He is 22 years old'],
-     ['Serge Gnabry', 'Arsenal > Werder Bremen > Bayern Munich', 'Germany', 'Short Number: 22', 'Known for his speed and goal-scoring ability'],
-    ['Kieran Trippier', 'Manchester City > Burnley > Tottenham Hotspur > Atletico Madrid', 'England', 'Short Number: 23', 'A versatile full-back known for his crossing'],
-    ['Dayot Upamecano', 'RB Leipzig > Bayern Munich', 'France', 'Short Number: 5', 'A young and promising central defender'],
-    ['Wojciech Szczęsny', 'Legia Warsaw > Arsenal > Juventus', 'Poland', 'Short Number: 1', 'Poland\'s national team goalkeeper'],
-    ['Sergej Milinković-Savić', 'KRC Genk > Lazio', 'Serbia', 'Short Number: 21', 'A tall and powerful midfielder'],
-    ['Dani Carvajal', 'Real Madrid', 'Spain', 'Short Number: 2', 'An attacking right-back with defensive skills'],
-    ['Ferran Torres', 'Valencia > Manchester City', 'Spain', 'Short Number: 21', 'A young winger with immense potential'],
-    ['Luis Alberto', 'Sevilla > Lazio', 'Spain', 'Short Number: 10', 'A creative midfielder known for his passing'],
-    ['Tammy Abraham', 'Chelsea', 'England', 'Short Number: 9', 'A tall and agile striker'],
-    ['Raphaël Varane', 'Lens > Real Madrid > Manchester United', 'France', 'Short Number: 19', 'Known for his defensive prowess'],
-    ['Achraf Hakimi', 'Real Madrid > Borussia Dortmund > Inter Milan > Paris Saint-Germain', 'Morocco', 'Short Number: 2', 'A fast and attacking right-back'],
-    ['Federico Valverde', 'Peñarol > Real Madrid', 'Uruguay', 'Short Number: 15', 'A dynamic and versatile midfielder'],
-    ['Ciro Immobile', 'Juventus > Torino > Sevilla > Lazio', 'Italy', 'Short Number: 17', 'A prolific goal scorer in Serie A'],
-    ['Emiliano Martínez', 'Independiente > Arsenal > Aston Villa', 'Argentina', 'Short Number: 26', 'Argentina\'s national team goalkeeper'],
-    ['Nicolo Zaniolo', 'Inter Milan > Roma', 'Italy', 'Short Number: 22', 'A young and talented midfielder'],
-    ['Youri Tielemans', 'Anderlecht > AS Monaco > Leicester City', 'Belgium', 'Short Number: 8', 'Known for his long-range goals'],
-    ['Isak Belfodil', 'Lyon > Bologna > Parma > Inter Milan > Hoffenheim', 'Algeria', 'Short Number: 19', 'A tall and skillful forward'],
-    ['Sergi Roberto', 'Barcelona', 'Spain', 'Short Number: 20', 'Versatile player who can play in multiple positions'],
-    ['Ferland Mendy', 'Lyon > Real Madrid', 'France', 'Short Number: 23', 'Attacking left-back with pace'],
-    ['Kalvin Phillips', 'Leeds United > Man city', 'England', 'Short Number: 23', 'A dynamic midfielder known for his work rate'],
-    ['Andreas Christensen', 'Brondby > Chelsea > Barcelona', 'Denmark', 'Short Number: 4', 'A composed central defender'],
-      ['Leon Goretzka', 'Bochum > Schalke 04 > Bayern Munich', 'Germany', 'Short Number: 18', 'Dynamic midfielder for Bayern Munich and Germany'],
-    ['Donyell Malen', 'Jong PSV > PSV Eindhoven > Borussia Dortmund', 'Netherlands', 'Short Number: 9', 'Young Dutch striker with great potential'],
-    ['Dominik Szoboszlai', 'Red Bull Salzburg > RB Leipzig', 'Hungary', 'Short Number: 17', 'Talented midfielder known for his free-kick ability'],
-    ['Lucas Paquetá', 'Flamengo > AC Milan > Lyon', 'Brazil', 'Short Number: 10', 'Creative midfielder representing Brazil'],
-    ['Nicolas Pepe', 'Lille > Arsenal', 'Ivory Coast', 'Short Number: 19', 'Pacey winger for Arsenal and Ivory Coast'],
-    ['Chris Wood', 'Leeds United > Burnley', 'New Zealand', 'Short Number: 9', 'New Zealand\'s leading goal scorer'],
-    ['Eduardo Camavinga', 'Rennes > Paris Saint-Germain', 'France', 'Short Number: 10', 'Highly touted young midfielder'],
-    ['Sander Berge', 'Genk > Sheffield United', 'Norway', 'Short Number: 32', 'Norwegian midfielder'],
-    ['Ozan Kabak', 'Schalke 04 > Liverpool', 'Turkey', 'Short Number: 19', 'Defender known for his composure'],
-    ['Amad Diallo', 'Atalanta > Manchester United', 'Ivory Coast', 'Short Number: 16', 'Young winger with great potential'],
-    ['Darwin Nunez', 'Almería > Benfica', 'Uruguay', 'Short Number: 9', 'Uruguayan striker with an eye for goal'],
-    ['Mikel Oyarzabal', 'Real Sociedad', 'Spain', 'Short Number: 10', 'Talented winger for Real Sociedad'],
-    ['Breel Embolo', 'FC Basel > Borussia Mönchengladbach > Borussia Dortmund', 'Switzerland', 'Short Number: 36', 'Versatile forward'],
-    ['Sergio Reguilón', 'Real Madrid > Tottenham Hotspur', 'Spain', 'Short Number: 3', 'Attacking left-back'],
-    ['Sandro Tonali', 'Brescia > AC Milan', 'Italy', 'Short Number: 8', 'Young Italian midfielder with great passing ability'],
-    ['Houssem Aouar', 'Lyon', 'France', 'Short Number: 8', 'Creative midfielder for Lyon'],
-    ['Patson Daka', 'Red Bull Salzburg > Leicester City', 'Zambia', 'Short Number: 23', 'Zambian striker with a clinical finish'],
-    ['Marcelo Brozović', 'Dinamo Zagreb > Inter Milan', 'Croatia', 'Short Number: 77', 'Croatian midfielder for Inter Milan'],
-    ['Denis Zakaria', 'Young Boys > Borussia Mönchengladbach', 'Switzerland', 'Short Number: 6', 'Defensive midfielder'],
-    ['Joaquin Correa', 'Estudiantes > Sevilla > Lazio', 'Argentina', 'Short Number: 11', 'Argentinian forward'],
-    ['Matteo Guendouzi', 'Lorient > Arsenal > Marseille', 'France', 'Short Number: 4', 'Young French midfielder'],
-    ['Emerson Palmieri', 'AS Roma > Chelsea', 'Italy', 'Short Number: 33', 'Defender who plays for Italy'],
-    ['Diego Lainez', 'Club América > Real Betis', 'Mexico', 'Short Number: 25', 'Mexican winger with flair'],
-     ['Gareth Bale', 'Southampton > Tottenham Hotspur > Real Madrid > Tottenham Hotspur', 'Wales', 'Short Number: 9', 'Wales international known for his speed and skills'],
-    ['Mesut Özil', 'Schalke 04 > Werder Bremen > Real Madrid > Arsenal > Fenerbahçe', 'Germany', 'Short Number: 67', 'German playmaker'],
-    ['Franshisco Isco', 'Valencia > Malaga > Real Madrid', 'Spain', 'Short Number: 22', 'Spanish midfielder known for his dribbling'],
-    ['Giovani Lo Celso', 'Rosario Central > Paris Saint-Germain > Real Betis > Tottenham Hotspur', 'Argentina', 'Short Number: 18', 'Argentinian midfielder'],
-    ['Lucas Moura', 'São Paulo > Paris Saint-Germain > Tottenham Hotspur', 'Brazil', 'Short Number: 27', 'Brazilian winger known for his pace'],
-    ['Wissam Ben Yedder', 'Toulouse > Sevilla > AS Monaco', 'France', 'Short Number: 9', 'French striker with a clinical finish'],
-    ['Memphis Depay', 'PSV Eindhoven > Manchester United > Lyon > Barcelona > Olympique Lyonnais', 'Netherlands', 'Short Number: 10', 'Dutch forward with flair'],
-    ['Edin Džeko', 'Željezničar > Teplice > Željezničar > FK Teplice > Wolfsburg > Manchester City > AS Roma > Inter Milan', 'Bosnia and Herzegovina', 'Short Number: 9', 'Bosnian striker known for his strength'],
-    ['Pierre-Emerick Aubameyang', 'AC Milan > Dijon > Lille > AS Saint-Étienne > Borussia Dortmund > Arsenal', 'Gabon', 'Short Number: 14', 'Gabonese striker with pace'],
-    ['Erling Haaland', 'Bryne > Molde > Red Bull Salzburg > Borussia Dortmund > Manchester City', 'Norway', 'Short Number: 9', 'Norwegian sensation known for his goal-scoring ability'],
-    ['Timo Werner', 'Stuttgart > RB Leipzig > Chelsea', 'Germany', 'Short Number: 11', 'German forward with speed'],
-    ['Jules Koundé', 'Girondins de Bordeaux > Sevilla', 'France', 'Short Number: 12', 'French defender with great potential'],
-    ['Lorenzo Insigne', 'Napoli', 'Italy', 'Short Number: 24', 'Italian forward with excellent dribbling skills'],
-    ['Raphaël Varane', 'Lens > Real Madrid > Manchester United', 'France', 'Short Number: 4', 'French defender known for his composure'],
-    ['Kai Havertz', 'Bayer Leverkusen > Chelsea', 'Germany', 'Short Number: 29', 'Young German midfielder with versatility'],
-    ['Ferran Torres', 'Valencia > Manchester City', 'Spain', 'Short Number: 21', 'Spanish winger with great potential'],
-    ['Dani Ceballos', 'Real Betis > Real Madrid > Arsenal', 'Spain', 'Short Number: 8', 'Spanish midfielder'],
-    ['Andrea Belotti', 'Palermo > Torino', 'Italy', 'Short Number: 9', 'Italian striker known for his work rate'],
-    ['James Rodríguez', 'Porto > AS Monaco > Real Madrid > Bayern Munich > Everton', 'Colombia', 'Short Number: 19', 'Colombian playmaker'],
-       ['Dayot Upamecano', 'RB Salzburg > RB Leipzig > Bayern Munich', 'France', 'Short Number: 5', 'French defender with great potential'],
-        ['Gerard Moreno', 'Villarreal > Espanyol > Villarreal', 'Spain', 'Short Number: 7', 'Spanish striker known for his clinical finishing'],
-    ['Yannick Carrasco', 'Monaco > Atlético Madrid > Dalian Professional > Atlético Madrid', 'Belgium', 'Short Number: 21', 'Belgian winger with pace'],
-    ['Hakim Ziyech', 'Heerenveen > Twente > Ajax > Chelsea', 'Morocco', 'Short Number: 22', 'Moroccan midfielder with creative flair'],
-    ['Riyad Mahrez', 'Le Havre > Leicester City > Manchester City', 'Algeria', 'Short Number: 26', 'Algerian winger known for his dribbling skills'],
-    ['Kalidou Koulibaly', 'Metz > Genk > Napoli', 'Senegal', 'Short Number: 26', 'Senegalese defender known for his strength'],
-    ['Lucas Paquetá', 'Flamengo > AC Milan > Olympique Lyonnais', 'Brazil', 'Short Number: 39', 'Brazilian midfielder with flair'],
-    ['João Cancelo', 'Benfica > Valencia > Inter Milan > Manchester City > Bayern > Barcelona', 'Portugal', 'Short Number: 27', 'Portuguese right-back with attacking prowess'],
-    ['Sergej Milinković-Savić', 'Genk > Lazio', 'Serbia', 'Short Number: 21', 'Serbian midfielder known for his versatility'],
-    ['Ismaïla Sarr', 'Metz > Rennes > Watford', 'Senegal', 'Short Number: 23', 'Senegalese winger with speed'],
-    ['Youssef En-Nesyri', 'Malaga > Leganés > Sevilla', 'Morocco', 'Short Number: 15', 'Moroccan striker known for his aerial ability'],
-    ['Rui Patrício', 'Sporting CP > Wolverhampton Wanderers > AS Roma', 'Portugal', 'Short Number: 11', 'Portuguese goalkeeper'],
-    ['Nicolo Barella', 'Cagliari > Inter Milan', 'Italy', 'Short Number: 23', 'Italian midfielder with great work rate'],
-    ['Serge Aurier', 'Lens > Toulouse > Paris Saint-Germain > Tottenham Hotspur', 'Ivory Coast', 'Short Number: 24', 'Ivorian right-back with attacking capabilities'],
-    ['Rafinha Alcântara', 'Barcelona > Paris Saint-Germain', 'Spain', 'Short Number: 12', 'Spanish midfielder with technical skills'],
-    ['Rúben Dias', 'Benfica > Manchester City', 'Portugal', 'Short Number: 3', 'Portuguese defender known for his composure'],
-    ['Nikola Vlašić', 'Hajduk Split > Everton > CSKA Moscow', 'Croatia', 'Short Number: 8', 'Croatian midfielder with versatility'],
-    ['Donyell Malen', 'Jong PSV > PSV Eindhoven > Borussia Dortmund', 'Netherlands', 'Short Number: 9', 'Dutch striker with goal-scoring ability'],
-    ['Emiliano Martínez', 'Independiente > Arsenal > Aston Villa', 'Argentina', 'Short Number: 26', 'Argentinian goalkeeper'],
-    ['Matteo Guendouzi', 'Lorient > Arsenal > Hertha BSC', 'France', 'Short Number: 8', 'French midfielder known for his tenacity'],
-    ['David Neres', 'São Paulo > Ajax', 'Brazil', 'Short Number: 7', 'Brazilian winger with flair'],
-    ['Douglas Luiz', 'Vasco da Gama > Manchester City > Aston Villa', 'Brazil', 'Short Number: 6', 'Brazilian midfielder with defensive qualities'],
-    ['Sergi Roberto', 'Barcelona', 'Spain', 'Short Number: 20', 'Versatile Spanish midfielder'],
-    ['Kieran Tierney', 'Celtic > Arsenal', 'Scotland', 'Short Number: 3', 'Scottish left-back known for his crossing'],
-     ['Christian Pulisic', 'Borussia Dortmund > Chelsea', 'United States', 'Short Number: 10', 'Talented American winger'],
-    ['Federico Valverde', 'Penarol > Real Madrid', 'Uruguay', 'Short Number: 15', 'Uruguayan midfielder with great potential'],
-    ['Dominik Szoboszlai', 'Salzburg > RB Leipzig', 'Hungary', 'Short Number: 17', 'Hungarian midfielder known for his set pieces'],
-    ['Jules Koundé', 'Bordeaux > Sevilla', 'France', 'Short Number: 12', 'French defender with immense potential'],
-    ['Lucas Ocampos', 'Monaco > Marseille > Sevilla', 'Argentina', 'Short Number: 5', 'Argentinian winger with versatility'],
-    ['Giovanni Reyna', 'New York City FC > Borussia Dortmund', 'United States', 'Short Number: 32', 'Young American talent'],
-    ['Eduardo Camavinga', 'Rennes > Real Madrid', 'France', 'Short Number: 23', 'French midfielder with a bright future'],
-    ['Jadon Sancho', 'Manchester City > Borussia Dortmund > Manchester United', 'England', 'Short Number: 7', 'English winger with creativity'],
-    ['Houssem Aouar', 'Lyon', 'France', 'Short Number: 8', 'French midfielder with dribbling skills'],
-    ['Kai Havertz', 'Bayer Leverkusen > Chelsea', 'Germany', 'Short Number: 29', 'German attacking midfielder with versatility'],
-    ['Sander Berge', 'Genk > Sheffield United > Arsenal', 'Norway', 'Short Number: 32', 'Norwegian midfielder with physicality'],
-    ['Ben White', 'Brighton & Hove Albion > Arsenal', 'England', 'Short Number: 4', 'English defender known for his composure'],
-    ['Ferran Torres', 'Valencia > Manchester City', 'Spain', 'Short Number: 21', 'Spanish winger with pace and flair'],
-    ['Nuno Mendes', 'Sporting CP > Paris Saint-Germain', 'Portugal', 'Short Number: 25', 'Portuguese left-back with potential'],
-    ['Odsonne Édouard', 'Celtic > Crystal Palace', 'France', 'Short Number: 22', 'French striker with goal-scoring ability'],
-    ['Renato Sanches', 'Benfica > Bayern Munich > Lille', 'Portugal', 'Short Number: 18', 'Portuguese midfielder with drive'],
-    ['Weston McKennie', 'Schalke 04 > Juventus', 'United States', 'Short Number: 14', 'American midfielder with versatility'],
-    ['Dwight McNeil', 'Burnley', 'England', 'Short Number: 11', 'English winger known for his crossing'],
-    ['Maxence Lacroix', 'Sochaux > Wolfsburg', 'France', 'Short Number: 4', 'French defender with potential'],
-    ]
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-def Quiz():
-    #pick a ramdom player
-    player = random.choice(M.Players)
-    print('Welcome to the Quiz!')
-    PlayerName = (player[0])
-    PlayerN = PlayerName.split()
-    Playername = PlayerN[0]
-    PlayerLN = PlayerN[1]
-    Hint1 = (player[1])
-    Hint2 = (player[random.randint(2, len(player)-1)])
-    while Hint1 == Hint2:
-        Hint2 = (player[random.randint(2, len(player)-1)])
-    print(f'First hint: {Hint1}')
-    print(f'Second hint: {Hint2}')
-    Answer = input('Who is this player? ')
+# Construct the path to the JSON file
+HIGH_SCORE_FILE = os.path.join(current_dir, "high_score.json")
 
-    def similarity_score(a, b):
+class QuizGame:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Modern Tkinter Quiz Game")
+        self.root.configure(bg='#1E1E1E')  # Dark background color
+        self.score = 0
+        self.tries = 0
+        self.players = [
+            ["Lionel Messi", "Argentinian footballer", "Plays for Inter Miami", "7-time Ballon d'Or winner", 36],
+            ["Cristiano Ronaldo", "Portuguese footballer", "Plays for Al Nassr", "5-time Ballon d'Or winner", 39],
+            ["Kylian Mbappe", "French footballer", "Plays for PSG", "2018 World Cup winner", 25],
+            ["Erling Haaland", "Norwegian footballer", "Plays for Manchester City", "Top scorer of the Premier League 2023-2024", 24],
+            ["Kevin De Bruyne", "Belgian footballer", "Plays for Manchester City", "Considered one of the best midfielders", 32],
+            ["Karim Benzema", "French footballer", "Plays for Al-Ittihad", "2022 Ballon d'Or winner", 36],
+            ["Robert Lewandowski", "Polish footballer", "Plays for FC Barcelona", "Best FIFA Men's Player 2020", 36],
+            ["Neymar Jr", "Brazilian footballer", "Plays for Al Hilal", "Skillful winger and playmaker", 32]
+        ]
+        self.current_player = None
+        self.hints_used = []
+        self.hints = []
+        self.help_used = False
+
+        self.player_name_var = StringVar()
+        self.hint_var = StringVar()
+        self.tries_var = StringVar()
+        self.score_var = StringVar()
+        self.high_score_var = StringVar()
+        self.age_var = StringVar()
+
+        self.load_high_score()
+        self.setup_ui()
+        self.new_game()
+
+    def setup_ui(self):
+        # Style configuration
+        style = ttk.Style()
+        style.configure('TButton', background='#333333', foreground='black', padding=6, font=('Arial', 12))
+        style.configure('TLabel', background='#1E1E1E', foreground='white', font=('Arial', 12))
+        style.configure('TEntry', background='#333333', foreground='white', padding=5)
+
+        # Labels for high score, score, and tries
+        Label(self.root, text="High Score:", bg='#1E1E1E', fg='white').grid(row=0, column=0, padx=10, pady=10, sticky='w')
+        Label(self.root, textvariable=self.high_score_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=0, column=1, padx=10, pady=10)
+
+        Label(self.root, text="Score:", bg='#1E1E1E', fg='white').grid(row=1, column=0, padx=10, pady=10, sticky='w')
+        Label(self.root, textvariable=self.score_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=1, column=1, padx=10, pady=10)
+
+        Label(self.root, text="Tries:", bg='#1E1E1E', fg='white').grid(row=2, column=0, padx=10, pady=10, sticky='w')
+        Label(self.root, textvariable=self.tries_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=2, column=1, padx=10, pady=10)
+
+        Label(self.root, text="Age:", bg='#1E1E1E', fg='white').grid(row=3, column=0, padx=10, pady=10, sticky='w')
+        Label(self.root, textvariable=self.age_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=3, column=1, padx=10, pady=10)
+
+        # Labels for hints
+        Label(self.root, text="Hint:", bg='#1E1E1E', fg='white').grid(row=4, column=0, padx=10, pady=10, sticky='w')
+        self.hint_label = Label(self.root, text="", bg='#1E1E1E', fg='white', font=('Arial', 12))
+        self.hint_label.grid(row=4, column=1, padx=10, pady=10)
+
+        Label(self.root, text="Player Guess:", bg='#1E1E1E', fg='white').grid(row=5, column=0, padx=10, pady=10, sticky='w')
+        self.player_guess_entry = Entry(self.root, textvariable=self.player_name_var, bg='#333333', fg='white')
+        self.player_guess_entry.grid(row=5, column=1, padx=10, pady=10)
+        self.player_guess_entry.bind("<Return>", self.submit_answer_event)
+
+        # Buttons
+        ttk.Button(self.root, text="Submit Answer", command=self.submit_answer).grid(row=6, column=0, padx=10, pady=10)
+        ttk.Button(self.root, text="Hint", command=self.provide_hint).grid(row=6, column=1, padx=10, pady=10)
+        ttk.Button(self.root, text="Help", command=self.provide_help).grid(row=7, column=0, padx=10, pady=10)
+        ttk.Button(self.root, text="New Game", command=self.new_game).grid(row=7, column=1, padx=10, pady=10)
+
+        # Message label for game status
+        self.status_label = Label(self.root, text="", bg='#1E1E1E', fg='white', font=('Arial', 14))
+        self.status_label.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+
+    def submit_answer_event(self, event):
+        self.submit_answer()
+
+    def similarity_score(self, a, b):
         return difflib.SequenceMatcher(None, a, b).ratio()
 
+    def get_random_hints(self, player):
+        hint1 = player[1]
+        hint2 = random.choice(player[2:])
+        while hint1 == hint2:
+            hint2 = random.choice(player[2:])
+        return [hint1, hint2]
 
+    def get_third_hint(self, player):
+        remaining_hints = [hint for hint in player[2:] if hint not in self.hints_used]
+        return random.choice(remaining_hints) if remaining_hints else None
 
+    def new_game(self):
+        self.current_player = random.choice(self.players)
+        self.hints_used = []
+        self.hints = self.get_random_hints(self.current_player)
+        self.help_used = False
 
+        self.age_var.set(f"Age: {self.current_player[4]}")
+        self.hint_label.config(text="")  # Clear hint label
+        self.player_name_var.set("")
+        self.update_ui()
 
-    def check_answer(Answer, PlayerName):
-        similarity = similarity_score(Answer.lower(), PlayerName.lower())
-        if similarity >= 0.7:
-            print("Correct! Its " + PlayerName + "!") 
-            M.score = M.score + 3
-            M.tries = M.tries + 1
-            print(f'Your score is {M.score} in {M.tries} tries')
-            print('=====================')
-            return Quiz()
+    def submit_answer(self):
+        player_name = self.current_player[0]
+        user_answer = self.player_name_var.get().strip()
 
+        if self.similarity_score(user_answer, player_name) >= 0.7:
+            if self.help_used:
+                self.score += 2  # Increase score by 2 points if help was used
+            else:
+                points = 5 if self.tries == 0 else (4 if not self.hint_label.cget("text") else 3)
+                self.score += points
+            self.status_label.config(text=f"Correct! It's {player_name}!\nYou earned {self.score} points.")
         else:
-            if Answer == 'Help' or Answer == 'help':
-                print(f' Player name: {Playername}')
-                SAnswer = input('Enter Player Last Name: ')
-                def CA(SAnswer, PlayerName):
-                    similarity = similarity_score(SAnswer.lower(), PlayerName.lower())
-                    if similarity >= 0.7:
-                        print("Correct! Its " + PlayerName + "!")
-                        M.score = M.score + 2
-                        M.tries = M.tries + 1
-                        print(f'Your score is {M.score} in {M.tries} tries')
-                        print('=====================')
-                        return Quiz()
-                        
-                    else:
-                        if SAnswer == 'Hint' or SAnswer == 'hint':
-                            Hint3 = (player[random.randint(2, len(player)-1)])
-                            while Hint3 == Hint1 or Hint3 == Hint2:
-                                Hint3 = (player[random.randint(2, len(player)-1)])
-                            print(f'Third hint: {Hint3}')
-                            answer = input('Enter Player Name: ')
-                            def ff(answer, PlayerName):
-                                similarity = similarity_score(answer.lower(), PlayerName.lower())
-                                if similarity >= 0.7:
-                                    print("Correct! Its " + PlayerName + "!")
-                                    M.score = M.score + 1
-                                    M.tries = M.tries + 1
-                                    print(f'Your score is {M.score} in {M.tries} tries')
-                                    print('=====================')
-                                    return Quiz()   
-                                else:
-                                        print("Incorrect. The correct answer is: " + PlayerName)
-                                        M.tries = M.tries + 1
-                                        print(f'Your score is {M.score} in {M.tries} tries')
-                                        print('=====================')
-                                        return Quiz()
-                            ff(SAnswer, PlayerName)
+            self.score -= 1
+            self.status_label.config(text=f"Incorrect. The correct answer is: {player_name}")
 
-                        print("Incorrect. The correct answer is: " + PlayerName)
-                        M.tries = M.tries + 1
-                        print(f'Your score is {M.score} in {M.tries} tries')
-                        print('=====================')
-                        return Quiz()
-                CA(SAnswer, PlayerLN)
-            if Answer == 'Hint' or Answer == 'hint':
-                Hint3 = (player[random.randint(2, len(player)-1)])
-                while Hint3 == Hint1 or Hint3 == Hint2:
-                    Hint3 = (player[random.randint(2, len(player)-1)])
-                print(f'Third hint: {Hint3}')
-                answer = input('Enter Player Name: ')
-                def checkanswer(answer, PlayerName):
-                    similarity = similarity_score(answer.lower(), PlayerName.lower())
-                    if similarity >= 0.7:
-                        print("Correct! Its " + PlayerName + "!")
-                        M.score = M.score + 2
-                        M.tries = M.tries + 1
-                        print(f'Your score is {M.score} in {M.tries} tries')
-                        print('=====================')
-                        return Quiz()   
-                    else:
-                        if answer == 'Help' or answer == 'help':
-                            print(f' Player name: {Playername}')
-                            HH = input('Enter Player Last Name: ')
-                            def eee(HH, PlayerName):
-                                similarity = similarity_score(HH.lower(), HH.lower())
-                                if similarity >= 0.7:
-                                    print("Correct! Its " + PlayerName + "!")
-                                    M.score = M.score + 1
-                                    M.tries = M.tries + 1
-                                    print(f'Your score is {M.score} in {M.tries} tries')
-                                    print('=====================')
-                                    return Quiz()
-                                else:
-                                    print("Incorrect. The correct answer is: " + PlayerName)
-                                    M.tries = M.tries + 1
-                                    print(f'Your score is {M.score} in {M.tries} tries')
-                                    print('=====================')
-                                    return Quiz()
-                            eee(SAnswer, PlayerLN)
+        self.tries += 1
+        self.update_ui()
+        self.new_game()
 
-                            print("Incorrect. The correct answer is: " + PlayerName)
-                            M.tries = M.tries + 1
-                            print(f'Your score is {M.score} in {M.tries} tries')
-                            print('=====================')
-                            return Quiz()
-                checkanswer(answer, PlayerName)
+    def provide_hint(self):
+        if self.hints:
+            next_hint = self.hints.pop(0)
+            self.hint_label.config(text=next_hint)
+            self.hints_used.append(next_hint)
+        else:
+            messagebox.showinfo("Hint", "No more hints available!")
 
-            print("Incorrect. The correct answer is: " + PlayerName)
-            M.tries = M.tries + 1
-            print(f'Your score is {M.score} in {M.tries} tries')
-            print('=====================')
-            return Quiz()
-            
-    
-    check_answer(Answer, PlayerName)
+    def provide_help(self):
+        self.help_used = True
+        self.player_name_var.set(f"{self.current_player[0].split()[0]} ")
 
+    def update_ui(self):
+        self.score_var.set(f"Score: {self.score}")
+        self.tries_var.set(f"Tries: {self.tries}")
+        self.high_score_var.set(f"High Score: {self.high_score}")
 
+    def load_high_score(self):
+        if os.path.exists(HIGH_SCORE_FILE):
+            with open(HIGH_SCORE_FILE, "r") as file:
+                data = json.load(file)
+                self.high_score = data.get("score", 0)
+                self.high_score_tries = data.get("tries", 0)
+        else:
+            self.high_score = 0
+            self.high_score_tries = 0
 
+    def save_high_score(self):
+        if self.score > self.high_score:
+            self.high_score = self.score
+            self.high_score_tries = self.tries
+            with open(HIGH_SCORE_FILE, "w") as file:
+                json.dump({"score": self.high_score, "tries": self.high_score_tries}, file)
 
-
-Quiz()
+if __name__ == "__main__":
+    root = Tk()
+    game = QuizGame(root)
+    root.mainloop()
