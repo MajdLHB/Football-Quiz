@@ -15,9 +15,19 @@ It's a football players quiz that provide with player information. Your role is 
 - Provides interesting facts and statistics about each player.
 
 ## Usage
-1. Clone this repository to your local machine:
+1. Intall the sorce file (.zip).
+2. Extract it.
+3. Open the Quiz.py file with the python app or run it with terminal:
+   - **Run the Python Script:**
+   ```bash
+   python3 Quiz.py
+   ```
 
-```shell
-git clone https://github.com/yourusername/Football-Quizt.git
+   - **On Windows**, if `python3` is not recognized, you might need to use `python` instead:
+     ```bash
+     python Quiz.py
+     ```
+
+   - **On macOS and Linux**, `python3` is generally the correct command.
 
 
