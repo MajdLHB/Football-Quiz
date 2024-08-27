@@ -30,4 +30,10 @@ It's a football players quiz that provide with player information. Your role is 
 
    - **On macOS and Linux**, `python3` is generally the correct command.
 
+4- And dont forget to install this:
+   ```bash
+   py -m pip install ttkthemes
+   ```
+
+
 
