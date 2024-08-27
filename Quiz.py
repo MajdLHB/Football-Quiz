@@ -2,8 +2,7 @@ import random
 import difflib
 import os
 import json
-from tkinter import Tk, StringVar, Label, Entry, Button
-from tkinter import messagebox
+from tkinter import Tk, StringVar, Label, Entry, Button, messagebox
 from tkinter import ttk
 
 # Get the directory of the current script
@@ -31,7 +30,7 @@ class QuizGame:
         ]
         self.current_player = None
         self.hints_used = []
-        self.hints = []
+        self.remaining_hints = []
         self.help_used = False
 
         self.player_name_var = StringVar()
@@ -39,6 +38,7 @@ class QuizGame:
         self.tries_var = StringVar()
         self.score_var = StringVar()
         self.high_score_var = StringVar()
+        self.hint1_var = StringVar()  # First hint (nationality or club)
         self.age_var = StringVar()
 
         self.load_high_score()
@@ -66,24 +66,27 @@ class QuizGame:
         Label(self.root, textvariable=self.age_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=3, column=1, padx=10, pady=10)
 
         # Labels for hints
-        Label(self.root, text="Hint:", bg='#1E1E1E', fg='white').grid(row=4, column=0, padx=10, pady=10, sticky='w')
-        self.hint_label = Label(self.root, text="", bg='#1E1E1E', fg='white', font=('Arial', 12))
-        self.hint_label.grid(row=4, column=1, padx=10, pady=10)
+        Label(self.root, text="Hint 1 (Nationality/Club):", bg='#1E1E1E', fg='white').grid(row=4, column=0, padx=10, pady=10, sticky='w')
+        Label(self.root, textvariable=self.hint1_var, bg='#1E1E1E', fg='white', font=('Arial', 14)).grid(row=4, column=1, padx=10, pady=10)
 
-        Label(self.root, text="Player Guess:", bg='#1E1E1E', fg='white').grid(row=5, column=0, padx=10, pady=10, sticky='w')
-        self.player_guess_entry = Entry(self.root, textvariable=self.player_name_var, bg='#333333', fg='white')
-        self.player_guess_entry.grid(row=5, column=1, padx=10, pady=10)
+        Label(self.root, text="Hint:", bg='#1E1E1E', fg='white').grid(row=5, column=0, padx=10, pady=10, sticky='w')
+        self.hint_label = Label(self.root, text="", bg='#1E1E1E', fg='white', font=('Arial', 12))
+        self.hint_label.grid(row=5, column=1, padx=10, pady=10)
+
+        Label(self.root, text="Player Guess:", bg='#1E1E1E', fg='white').grid(row=6, column=0, padx=10, pady=10, sticky='w')
+        self.player_guess_entry = ttk.Entry(self.root, textvariable=self.player_name_var)
+        self.player_guess_entry.grid(row=6, column=1, padx=10, pady=10)
         self.player_guess_entry.bind("<Return>", self.submit_answer_event)
 
         # Buttons
-        ttk.Button(self.root, text="Submit Answer", command=self.submit_answer).grid(row=6, column=0, padx=10, pady=10)
-        ttk.Button(self.root, text="Hint", command=self.provide_hint).grid(row=6, column=1, padx=10, pady=10)
-        ttk.Button(self.root, text="Help", command=self.provide_help).grid(row=7, column=0, padx=10, pady=10)
-        ttk.Button(self.root, text="New Game", command=self.new_game).grid(row=7, column=1, padx=10, pady=10)
+        ttk.Button(self.root, text="Submit Answer", command=self.submit_answer).grid(row=7, column=0, padx=10, pady=10)
+        ttk.Button(self.root, text="Hint", command=self.provide_hint).grid(row=7, column=1, padx=10, pady=10)
+        ttk.Button(self.root, text="Help", command=self.provide_help).grid(row=8, column=0, padx=10, pady=10)
+        ttk.Button(self.root, text="New Game", command=self.new_game).grid(row=8, column=1, padx=10, pady=10)
 
         # Message label for game status
         self.status_label = Label(self.root, text="", bg='#1E1E1E', fg='white', font=('Arial', 14))
-        self.status_label.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+        self.status_label.grid(row=9, column=0, columnspan=2, padx=10, pady=10)
 
     def submit_answer_event(self, event):
         self.submit_answer()
@@ -91,24 +94,15 @@ class QuizGame:
     def similarity_score(self, a, b):
         return difflib.SequenceMatcher(None, a, b).ratio()
 
-    def get_random_hints(self, player):
-        hint1 = player[1]
-        hint2 = random.choice(player[2:])
-        while hint1 == hint2:
-            hint2 = random.choice(player[2:])
-        return [hint1, hint2]
-
-    def get_third_hint(self, player):
-        remaining_hints = [hint for hint in player[2:] if hint not in self.hints_used]
-        return random.choice(remaining_hints) if remaining_hints else None
-
     def new_game(self):
         self.current_player = random.choice(self.players)
         self.hints_used = []
-        self.hints = self.get_random_hints(self.current_player)
+        self.remaining_hints = self.current_player[2:4]  # Initial hints (excluding nationality/club and age)
         self.help_used = False
 
+        # Set the initial information
         self.age_var.set(f"Age: {self.current_player[4]}")
+        self.hint1_var.set(f"{self.current_player[1]}")  # Nationality or club
         self.hint_label.config(text="")  # Clear hint label
         self.player_name_var.set("")
         self.update_ui()
@@ -116,33 +110,51 @@ class QuizGame:
     def submit_answer(self):
         player_name = self.current_player[0]
         user_answer = self.player_name_var.get().strip()
-
+        
         if self.similarity_score(user_answer, player_name) >= 0.7:
             if self.help_used:
                 self.score += 2  # Increase score by 2 points if help was used
             else:
-                points = 5 if self.tries == 0 else (4 if not self.hint_label.cget("text") else 3)
-                self.score += points
+                # Determine points based on number of hints used
+                if len(self.hints_used) == 1:
+                    self.score += 4
+                elif len(self.hints_used) >= 2:
+                    self.score += 3
+                else:
+                    self.score += 5
             self.status_label.config(text=f"Correct! It's {player_name}!\nYou earned {self.score} points.")
         else:
-            self.score -= 1
+            if self.help_used:
+                self.score -= 4
+            elif len(self.hints_used) == 1:
+                self.score -= 2
+            elif len(self.hints_used) >= 2:
+                self.score -= 3
+            else:
+                self.score -= 1
             self.status_label.config(text=f"Incorrect. The correct answer is: {player_name}")
 
         self.tries += 1
         self.update_ui()
+        self.save_high_score()
         self.new_game()
 
     def provide_hint(self):
-        if self.hints:
-            next_hint = self.hints.pop(0)
+        if self.remaining_hints:
+            next_hint = self.remaining_hints.pop(0)
             self.hint_label.config(text=next_hint)
             self.hints_used.append(next_hint)
+            # No score change when the hint button is pressed
         else:
-            messagebox.showinfo("Hint", "No more hints available!")
+            messagebox.showinfo("No More Hints", "No more hints available!")
+
 
     def provide_help(self):
         self.help_used = True
-        self.player_name_var.set(f"{self.current_player[0].split()[0]} ")
+        self.status_label.config(text="Help is used! If correct, you'll earn 2 points.")
+        if self.current_player:
+            first_name = self.current_player[0].split()[0]  # Get only the first name
+            self.player_name_var.set(first_name)  # Show only the first name in the entry field
 
     def update_ui(self):
         self.score_var.set(f"Score: {self.score}")
